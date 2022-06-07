@@ -1,0 +1,17 @@
+.user-detail-block {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+.user-detail-header {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    line-height: 36px;
+}
+.user-detail-header i.fa {
+    float: left;
+}
+.user-detail-body {
+    display: none;
+}
