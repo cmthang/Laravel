@@ -4,30 +4,19 @@
     Support Software
 @endsection
 
-@section('css')
-@endsection
-
-@section('js')
-    <script type="text/javascript" src="{{ secure_asset('/dist/js/support_software.index.js?v=') . $metadata_version }}">
-    </script>
-@endsection
-
 @section('content')
     <div class="row">
         <section class="col-lg-12">
             @include('include._error_message')
-
             <div id="box-list-data" class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">@yield('title')</h3>
                     <div class="box-tools pull-right">
-                        <a href="{{ route('supported-software.create') }}" class="btn btn-sm btn-flat btn-success"><i
-                                class="fa fa-plus"></i> Add</a>
+                        <a href="{{ route('supported-software.create') }}" class="btn btn-sm btn-flat btn-success">
+                            <i class="fa fa-plus"></i> Add</a>
                     </div>
                 </div>
 
                 <div class="box-body table-responsive">
-
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -46,8 +35,17 @@
                                 <td>{{ $item['value'] }}</td>
                                 <td>{{ $item['order_version'] }}</td>
                                 <td>
-                                    <a href="{{ route('supported-software.edit', ['supported_software' => $item['id']]) }}">Edit</a> <br>
-                                    <a href="/supported_software/{{ $item['id'] }}">Delete</a>
+                                    <a class="btn btn-sm btn-success btn-edit-ev"
+                                        href="{{ route('supported-software.edit', ['supported_software' => $item['id']]) }}"><i
+                                            class="fa fa-pencil"></i></a><br>
+                                    <form
+                                        action="{{ route('supported-software.destroy', ['supported_software' => $item['id']]) }}"
+                                        method="POST">
+                                        <input type="hidden" name="_method" value="delete" />
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button class="btn btn-sm btn-danger btn-delete-ev" type="submit"><i
+                                                class="fa fa-trash"></i></button>
+                                    </form>
                                 <td>
                             </tr>
                         @endforeach

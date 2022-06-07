@@ -5,99 +5,65 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupportSoftware;
 use App\Services\SupSoftwareService;
-
+use App\Http\Requests\StoreSupportSoftwareRequest;
 
 class SupSoftwareController extends Controller
 {
 
-        //View List 
-        public function index()
-        {
-            return view('index.support_software');
-        }
-        
-        //View Create
-        public function create()
-        {
-            $support_software = new SupportSoftware();
+    //View List 
+    public function index()
+    {
+        $data = SupportSoftware::all();
+        return view('supported_software.index', compact('data'));
+    }
 
-            return view ('index.edit_support_software', compact('support_software'));
-        }
+    //View Create
+    public function create()
+    {
+        $support_software = new SupportSoftware();
 
-        //View Edit By ID 
-        public function edit(Request $request, $id)
-        {
-            $support_software = SupportSoftware::find($id);
+        return view('index.edit_support_software', compact('support_software'));
+    }
 
-            $support_software = (object)$support_software;
+    //View Edit By ID 
+    public function edit(Request $request, $id)
+    {
+        $support_software = SupportSoftware::find($id);
 
-            return view ('index.edit_support_software', compact('support_software','id'));
-        }
-        
-        //Method POST - Update Database
-        public function update(Request $request, $id)
-        {        
-            $support_software = SupportSoftware::find($id);
-    
-            $validator = [];
-            $validator['software'] = 'required';
-            $validator['lable'] = 'required';
-            $validator['value'] = 'required';
-            $validator['order_version'] = 'required';
+        $support_software = (object)$support_software;
 
-            $this -> validate($request, $validator);
+        return view('index.edit_support_software', compact('support_software', 'id'));
+    }
 
-            $data = [];
-            $data['software'] = $request -> get('software');
-            $data['lable'] = $request -> get('lable');
-            $data['value'] = $request -> get('value');
-            $data['order_version'] = $request -> get('order_version');
-            $data['support_software_id'] = $support_software->id;
-            
-                
-            $services = new SupSoftwareService(); 
+    //Method POST - Update Database
+    public function update(StoreSupportSoftwareRequest $request, $id)
+    {
 
-            $services -> updateDatabase($data);
+        $services = new SupSoftwareService();
 
-            return redirect('/supported-software');
-        }
+        $services->updateDatabase($request->all(), $id);
 
+        return redirect('/supported-software');
+    }
 
-        //Method POST - Insert Database
-        public function store(Request $request)
-        { 
-            $validator = [];
-            $validator['software'] = 'required';
-            $validator['lable'] = 'required';
-            $validator['value'] = 'required';
-            $validator['order_version'] = 'required';
-    
-            $this -> validate($request, $validator);
-    
-            $data = [];
-            $data['software'] = $request -> get('software');
-            $data['lable'] = $request -> get('lable');
-            $data['value'] = $request -> get('value');
-            $data['order_version'] = $request -> get('order_version');
-                
+    //Method POST - Insert Database
+    public function store(StoreSupportSoftwareRequest $request)
+    {
 
-            $services = new SupSoftwareService(); 
+        $services = new SupSoftwareService();
 
-            $services -> insertDatabase($data);
+        $services->insertDatabase($request->all());
 
-            return redirect('/supported-software');           
-        }
+        return redirect('/supported-software');
+    }
 
-        
-        //Method DELETE - Delete Database 
-        public function destroy($id)
-        {
-            $services = new SupSoftwareService(); 
+    //Method DELETE - Delete Database 
+    public function destroy($id)
+    {
+        $services = new SupSoftwareService();
 
-            $services -> deleteDatabase($id);
+        $services->deleteDatabase($id);
 
-            return view ('index.support_software');
-        }
-
+        return redirect()->route('supported-software.index');
+    }
 }
-

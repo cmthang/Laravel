@@ -14,33 +14,19 @@
 
         function insertDatabase($data)
         {
-            // $data = (array)$data;
-
-            // $query = DB::table('support_software')->insert([
-            //     'software' => $data['software'],
-            //     'lable' => $data['lable'],
-            //     'value' => $data['value'],
-            //     'order_version' => $data['order_version']
-            // ]);
         
             $query = SupportSoftware::create($data);
 
             return $query;
         }
 
-        function updateDatabase($data)
+        function updateDatabase($data, $id)
         {
-            $data = (array)$data;
+            $record = SupportSoftware::find($id);
 
-            $query = DB::table('support_software')->where('id', $data['support_software_id'])
-            ->update([
-                'software' => $data['software'],
-                'lable' => $data['lable'],
-                'value' => $data['value'],
-                'order_version' => $data['order_version']
-            ]);
+            $record->update($data);
 
-            return $query;
+            return $record;
         }
 
 
