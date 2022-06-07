@@ -2494,75 +2494,10 @@ class AjaxController extends Controller
         return \Response::json($result);
     }
 
-
     public function deleteSoftwareBlenderByAPI($model){
         #model->delete()
         
 //        curl_init()
     }
-
-    public function supportSoftwareList()
-    {
-        $draw = Request::input('draw', '');
-        $length = Request::input('length', '');
-        $start = Request::input('start', 0);
-        $order = Request::input('order');
-        $search = Request::input('search');
-
-        $queryCondition = [];
-
-        $orderField = '';
-        if ($order[0]['column'] == 0) {
-            $orderField = 'software';
-        }
-        if ($orderField) {
-            $queryCondition['order'] = $orderField . ' ' . $order[0]['dir'];
-        }
-        if (isset($search['value'])) {
-            $queryCondition['keyword'] = $search['value'];
-        }
-
-        $support_software = SupportSoftware::getByCondition($queryCondition, 'query');
-
-        $result = [];
-        $result['draw'] = $draw;
-        $result['recordsTotal'] = $support_software->get()->count();
-        $result['recordsFiltered'] = $result['recordsTotal'];
-        $result['data'] = [];
-
-        $ste = $support_software->skip($start)->take($length)->get();
-        foreach ($ste as $item) {
-            $actions = '<div><a class="btn btn-sm btn-success btn-edit-ev" data-id="'.$item->id.'" ><i class="fa fa-pencil"></i></a>
-            <a class="btn btn-sm btn-danger btn-delete-ev" data-id="'.$item->id.'" >x</a></div>';
-
-
-            $result['data'][] = [
-                'software' => $item->software,
-                'lable' => $item->lable,
-                'value' => $item->value,
-                'order_version' => $item->order_version,
-                'action' => $actions
-            ];
-        }
-
-        return \Response::json($result);
- 
-    }    
-
-
-    public function supportSoftwareDelete(){
-        $id = Request::input('id', '');
-        $result = [];
-        $result['success'] = FALSE;
-        $consoleClient = new ConsoleClient();
-        $resultConsole = $consoleClient->deleteSupportSoftware([
-            'support_software_id' => $id
-        ]);
-        $result['success'] = TRUE;
-        $result['message'] = 'Send success';
-        
-        return \Response::json($result);
-    }
-
 
 }
