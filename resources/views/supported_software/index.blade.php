@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="box-body table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" data-order='[[ 0, "asc" ]]'>
                         <thead>
                             <tr>
                                 <th>Software</th>

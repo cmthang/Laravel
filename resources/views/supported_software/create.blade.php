@@ -12,8 +12,6 @@
 @section('js')
     <script type="text/javascript"
         src="{{ asset('/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js?v=') . $metadata_version }}"></script>
-    <script type="text/javascript" src="{{ asset('/dist/js/support_software.index.js?v=') . $metadata_version }}">
-    </script>
 @endsection
 
 @section('content')

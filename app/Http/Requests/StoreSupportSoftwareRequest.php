@@ -34,10 +34,10 @@ class StoreSupportSoftwareRequest extends FormRequest
     public function messages()
     {
         return [
-            'software.required' => 'This field is required',
-            'lable.required' => 'This field is required',
-            'value.required' => 'This field is required',
-            'order_version.required' => 'This field is required',
+            'software.required' => 'This field software is required',
+            'lable.required' => 'This field lable is required',
+            'value.required' => 'This field value is required',
+            'order_version.required' => 'This order_version field is required',
         ];
     }
 }
